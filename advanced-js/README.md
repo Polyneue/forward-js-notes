@@ -1,4 +1,4 @@
-#ForwardJS - Advance JS
+#Advanced JS
 
 ##Scope - Where to look for things
 What are we looking for? Variables and Identifiers. Javascript is a continuously compiled language. 
@@ -7,7 +7,7 @@ What are we looking for? Variables and Identifiers. Javascript is a continuously
 
 Understanding how Javascript processes the code. Javascript runs a two scan process on the program, once as the compiler to set up the lexical scope and the second time as the engine to execute the code.
 
-```
+```javascript
 var foo = "bar";
 /*
  * Compiler: Hey global scope, ever heard of foo? (No go ahead and register it)
@@ -58,7 +58,7 @@ Three reasons why named function expressions are preferrable to anonymous functi
 * Code can be more readable and self documenting.
 
 
-```
+```javvascript
 function foo() {} // Formal Function Declaration
 var foo = function foo() {} // Function Expression
 ```
@@ -66,7 +66,7 @@ var foo = function foo() {} // Function Expression
 
 Execution looks for the _LHS_ (Left Hand Side) and _RHS_ (Right Hand Side) aka the LValue and RValue. Another way to think of it is _Target_ and _Source_.
 
-```
+```javascript
 var foo = "bar";
 ```
 
@@ -95,7 +95,7 @@ Two characteristics for the Module Pattern
 * Must be an outer enclosing function that runs at least once.
 * The function must return back at least one inner function that has closure over the internals.
 
-```
+```javascript
 /* 
  * Module Patterns
  * Hiding all of the details inside a private function

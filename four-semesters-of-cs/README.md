@@ -5,7 +5,7 @@ Coreman's Intro to Algorithms
 ##Big O
 Strip awway concepts to focus on the main part of equations. 
 
-```
+```javascript
 function crossAdd(input) {
 	var answer = [];
 	for (var i = 1; i < input.length; i++) {
@@ -19,7 +19,7 @@ function crossAdd(input) {
 
 This is `O(n)` because we go through all of the inputs once in a loop
 
-```
+```javascript
 function fine(needle, haystack) {
 	for (int i=0; haystack.length; i++) {
 		if (hastack[i] === needle) return true;
@@ -31,7 +31,7 @@ Still `O(n)` because it can take a large array that of an undefined length. Wors
 
 When looking for the Big O in algorithms we are looking for the number of loops. For example a newsted loop would be `O(n^2)`. With multiple loops, look for the most complex nested loops, and that will be the Big O.
 
-```
+```javascript
 function foo(input) {
 	// First Loop has no nested loops
 	for (var i=0; i < input.length; i++) {
@@ -53,17 +53,6 @@ Time over inputs causes a vertical curve.
 
 Logarithms will taper off with the more inputs added.
 
-```
-function basicRecursion(max, current) {
-	// Set up the base case so the program knows when to exit
-	// Failing to do so will cause a stack overflow
-	if (current > max) return;
-	
-	// If the base case isn't met, run the recursive function again
-	basicRecursion(max, current + 1)
-}
-```
-
 
 ##Recursion
 Recursion is when you define something in terms of itself. When referring to recursion in CS, a function calling itself would be a Recursive Function and would be Logarithmic in it's Big O.
@@ -73,6 +62,19 @@ Recursion is much slower than iteration, if you can avoid it, always try to use 
 For recursive algorithms you should be solving for your base case. Define the base case for when you can solve what you are trying to do.
 
 > Don't kill people, write base case.
+
+An example of a recursive function below:
+
+```javascript
+function basicRecursion(max, current) {
+	// Set up the base case so the program knows when to exit
+	// Failing to do so will cause a stack overflow
+	if (current > max) return;
+	
+	// If the base case isn't met, run the recursive function again
+	basicRecursion(max, current + 1)
+}
+```
 
 ##Sorting
 ###Bubble Sort
@@ -85,10 +87,86 @@ We're going to start at the beginning of the list and assume we have a sorted li
 The basic gist of merge sort is that you're going to take your big list, and first divide down in two half size lists and recursively call merge sort on those smaller list, which in turn will do the same. The base case is when you have a list of one, at which point you will return that sorted list of one.
 
 ###Quick Sort
+It's another divide-and-conquer, recursive algorithm but it takes a slightly different approach. The basic gist is that you take the last element in the list and call that the pivot. Everything that's smaller than the pivot gets put into a "left" list and everything that's greater get's put in a "right" list. You then call quick sort on the left and right lists independently (hence the recursion.) After those two sorts come back, you concatenate the sorted left list, the pivot, and then the right list (in that order.)
 
-##Data Structures - Interfaces
+##Functional Programming
+A function that modifies no state and is idempodent is called a _Pure Function_. The idea of Functional programming is that you will create smaller easily testable functions that will remain reliable with scalability. Imagine creating a function that receives a list and acts on it, a pure function would be non destructive to the list and only return some sort of tranformation of the list itself. 
+
+Some benefits of Functional programming:
+
+* Ease of Unit Testing
+* Stateless Code
+* No side effects to functions
+
+An example of good functional programming:
+
+```javascript
+function double(num) {
+	return num * 2;
+}
+
+function doublePlus(num) {
+	return double(num) + num;
+}
+
+double(10); // 20
+doublePlus(10) // 30
+```
+
+The idea is that building upon reliable and tested functions will allow you to scale far more easily. Some higher order functions that are used, generally work on lists of information. `.map`, `.reduce`, and `.filter` are the most used higher order functions.
+
+```javascript
+var array = [1,2,3,4,5];
+
+function double(num) {
+	return num * 2;
+}
+function doubleEach(input) { input
+	.map( double );
+}
+
+doubleEach(array); // [1,4,6,8,10]
+```
+
+##Exercises
+###Recursion
+Exercise
+Answer
+
+###Sorting
+####Bubble Sort
+Exercise
+Answer
+
+####Insertion Sort
+Exercise
+Answer
+
+####Merge Sort
+Exercise
+Answer
+
+####Quick Sort
+Exercise
+Answer
+
+###Functional Programming
+####Map
+Exercise
+Answer
+
+####Reduce
+Exercise
+Answer
+
+####Filter
+Exercise
+Answer
+
+
+
 
 ---
 **References**  
-<http://btholt.github.io/four-semesters-of-cs/>
+<http://btholt.github.io/four-semesters-of-cs/>  
 <http://bigocheatsheet.com/>
