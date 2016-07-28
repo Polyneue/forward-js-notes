@@ -150,7 +150,7 @@ function acronym(str, word) {
 ###Fusion
 When you have multiple map calls you should compose those functions together. 
 
-```
+```javascript
 list
 .map(addOne)
 .map(mult2)

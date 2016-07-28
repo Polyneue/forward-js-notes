@@ -1,11 +1,44 @@
 #Advanced JS
 
 ##Scope - Where to look for things
-What are we looking for? Variables and Identifiers. Javascript is a continuously compiled language. 
-> (For example, line 1 is correct and a bug is on line 4 and the code won't run lines 1-3)  
-> One pass that checks the code and second pass runs the code.  
+To understand scope, first you'll need to understand how Javascript reads and sets up the program. Contrary to belief, Javascript is actually a compiled language, in that there is a compile phase and an execution phase when the program is run. These two separate passes over the program are known as the compiler and the engine (executor). 
 
-Understanding how Javascript processes the code. Javascript runs a two scan process on the program, once as the compiler to set up the lexical scope and the second time as the engine to execute the code.
+###The Compiler 
+The compiler reads over the program and sets up the lexical scope.
+
+When the compiler scans over the code, the main items it looks for are _Formal Declarations_ (`var`, `function`, `const`, and `let`). _Formal Declarations_ need to start with a declarator, a formal declarator, or have a formal parameter. It uses these _Formal Declarations_ to set up the scoping for each block. 
+
+**Note:** Formal function declarations are only a function declaration if the word function is first in the line. For example:
+
+```javascript
+function foo() {} // Formal Function Declaration
+var foo = function foo() {} // Function Expression
+```
+
+###The Engine
+The Engine/Executor reads over the program and looks for left hand values and right hand values. These values have different names based on who you ask but the three most common are:
+
+**Left Hand Values**
+
+* LHS (Left Hand Side)
+* LValue
+* Target
+
+**Right Hand Values**
+
+* RHS (Right Hand Side)
+* RValue
+* Source
+
+In the code example below `foo` is the _Target_ and `"bar"` is the _Source_.
+
+```javascript
+var foo = "bar";
+```
+
+When the program is run, the compiler saves a spot in memory on the first pass for the scope manager to perform a lookup against during the executor phase. The executor then assigns the value back to the saved spot in memory.
+
+For an example of how this conversation between the compiler and the engine occurs, see the code snippet below (Remember, these are two separate phases, the compiler will ask all of it's questions first, and then the engine will do it's part). 
 
 ```javascript
 var foo = "bar";
@@ -47,47 +80,17 @@ function baz(foo) {
 }
 ```
 
-Formal declarations consist of `var`, `function`, `const`, and `let` and are registered by the scope of the block. Formal declarations need to start with a declarator a formal declarator or have a formal parameter.
+**Notes on Scope**
 
-> Formal function declarations are only a function declaration if the word function is first. Otherwise it is a function expression.
+* Lexical scope cannot be changed and is defined at author and compile time.
+* You should keep everything private and inaccessible and only expose what you need to.
+* `let` keyword allows for scoping to a block or a function;
+* Errors: `undeclared` means it was not defined in the scope, `undefined` means it is found in the scope but has not been defined.
 
-Three reasons why named function expressions are preferrable to anonymous function expression.
-
-* Some times you need to refer to the function from inside itself (Recursion, Unbinding). It becomes a reliable self reference to itself.
-* Adds a name to the stack trace for better debugging.
-* Code can be more readable and self documenting.
-
-
-```javvascript
-function foo() {} // Formal Function Declaration
-var foo = function foo() {} // Function Expression
-```
-
-
-Execution looks for the _LHS_ (Left Hand Side) and _RHS_ (Right Hand Side) aka the LValue and RValue. Another way to think of it is _Target_ and _Source_.
-
-```javascript
-var foo = "bar";
-```
-
-In the above code `foo` is the LHS and `"bar"` is the RHS.
-
-The compiler saves a spot in the memory for the scope manager to perform a lookup and for the executor to assign the value back to the saved memory.
-
-
-##Fixed Lexical Scope
-Lexical scope cannot be changed and is defined at author and compile time.
-
-Keep everything private and inaccessible and only expose what you need to.
-
-`let` keyword allows for scoping to a block or a function;
-
-
-##Undeclared vs Undefined
-Undeclard wasn't not defined in the scope, undefined is found in the scope but has not been defined.
 
 ##Closure
-Closure is when a function "remembers" it's lexical scope even when the function is executed outside that lexical scope.
+Closure is when a function "remembers" it's lexical scope even when the function is executed outside that lexical scope. 
+
 
 ##Module Pattern
 Two characteristics for the Module Pattern
@@ -148,10 +151,16 @@ OLOO (Objects Linked to Other Objects)
 
 ```
 
+Three reasons why named function expressions are preferrable to anonymous function expression.
+
+* Some times you need to refer to the function from inside itself (Recursion, Unbinding). It becomes a reliable self reference to itself.
+* Adds a name to the stack trace for better debugging.
+* Code can be more readable and self documenting.
+
 ---
 **References:**  
-Javascript Specification: <http://www.ecma-international.org/ecma-262/7.0/index.html>
-You Don't Know JS Scopes & Closures:
+Javascript Specification: <http://www.ecma-international.org/ecma-262/7.0/index.html>  
+[Lexical Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch2.md)
 
 **Todo:**  
 
