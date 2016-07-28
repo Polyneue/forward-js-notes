@@ -91,6 +91,113 @@ function baz(foo) {
 ##Closure
 Closure is when a function "remembers" it's lexical scope even when the function is executed outside that lexical scope. 
 
+```javascript
+function foo() {
+	var a = 2;
+
+	function bar() {
+		console.log(a); // 2
+	}
+
+	bar();
+}
+
+foo();
+```
+
+In the above snippet function `bar()` has a _closure_ over the scope of `foo()`, This is because `bar()` appears nested inside of `foo()`, plain and simple. 
+
+```javascript
+function foo() {
+	var a = 2;
+
+	function bar() {
+		console.log(a); // 2
+	}
+
+	return bar;
+}
+
+var baz = foo();
+
+baz(); // 2 -- Closure
+```
+
+To better understand closure, take a look at the example above. The function `bar()` has scope access to the inner scope of `foo()`. Then we take `bar()`, the function itself and pass it as a value. In this case, returning the function object itself that `bar` references.
+
+After we execute `foo()`, we assign the value it returned (our inner `bar()`) to a variable called `baz`, and then invoke `baz()`, which is invoiking our inner function `bar()`, just with a different identifier reference.
+
+In this case, the function `bar()` is being executed _outside_ of it's declared lexical scope. 
+
+The function `bar()` still has a closure over the inner scope of `foo()`, which keeps the scope of `foo` alive to be used by `bar()` at any later time. 
+
+Since `bar()` still has a reference to that scope, that reference is called **closure**.
+
+###Creating Closures
+Sometimes you need to intentionally create closures for you're programs. There are multiple ways this can be done using *IIFE*, `let` scoping, and module patterns.
+
+####IIFE
+Immediately Invoked Function Expressions
+
+```javascript
+var a = 2;
+
+// Allows for some scope and keeps bob() from populating the global scope.
+(function bob() {
+	var a = 10;
+	console.log(a);
+})();
+
+// Turns a declaration into a function expression for immediate usage.
+void function bob() {
+	var a = 10;
+	console.log(a); // 10
+}
+
+console.log(a) // 2
+
+// You can set up your program to expose only functions that need to be public. 
+// This maintains the lexical scope for the wrapped functions below
+(function CustomerLogin(global) {
+	function foo() {
+		bar();
+	}
+	function bar() {
+		console.log(a)
+	}
+	var a = 42;
+
+	// Expose only the necessary API
+	global.foo = foo;
+})(window);
+```
+
+####Let
+The `let` keyword will create a block level scope when used.
+
+```javascript
+function diff(x,y) {
+	
+	// EX 1 - Implicit Declaration
+	if (x > y) {
+		let tmp = x;
+		x = y;
+		y = tmp;
+	}
+
+	// Ex 2 - Explicit Declaration
+	if (x > y) {
+		// Let will be scoped to the "if" block
+		{
+			let tmp = x;
+			x = y;
+			y = tmp;
+		}
+	}
+	return y - x;
+}
+```
+
 
 ##Module Pattern
 Two characteristics for the Module Pattern
