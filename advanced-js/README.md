@@ -304,6 +304,6 @@ Three reasons why named function expressions are preferrable to anonymous functi
 ---
 **References:**  
 [Javascript Specification](http://www.ecma-international.org/ecma-262/7.0/index.html)  
-[Lexical Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch2.md)
-[Closure](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/ch5.md)
+[Lexical Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch2.md)  
+[Closure](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/ch5.md)  
 [This](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/ch1.md)
