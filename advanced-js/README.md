@@ -1,6 +1,8 @@
 #Advanced JS
+Kyle Simpson - [@getify](https://twitter.com/getify)  
+This course is based on two of the _You Don't Know JS_ books, [Scopes & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) and [this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes).
 
-##Scope - Where to look for things
+##Scope
 To understand scope, first you'll need to understand how Javascript reads and sets up the program. Contrary to belief, Javascript is actually a compiled language, in that there is a compile phase and an execution phase when the program is run. These two separate passes over the program are known as the compiler and the engine (executor). 
 
 ###The Compiler 
