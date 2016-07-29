@@ -134,7 +134,7 @@ The function `bar()` still has a closure over the inner scope of `foo()`, which 
 Since `bar()` still has a reference to that scope, that reference is called **closure**.
 
 ###Creating Closures
-Sometimes you need to intentionally create closures for you're programs. There are multiple ways this can be done using *IIFE*, `let` scoping, and module patterns.
+Sometimes you need to intentionally create closures for you're programs. There are multiple ways this can be done using *IIFE*, `let` scoping, and modules.
 
 ####IIFE
 Immediately Invoked Function Expressions
@@ -145,7 +145,7 @@ var a = 2;
 // Allows for some scope and keeps bob() from populating the global scope.
 (function bob() {
 	var a = 10;
-	console.log(a);
+	console.log(a); // 10
 })();
 
 // Turns a declaration into a function expression for immediate usage.
@@ -155,21 +155,6 @@ void function bob() {
 }
 
 console.log(a) // 2
-
-// You can set up your program to expose only functions that need to be public. 
-// This maintains the lexical scope for the wrapped functions below
-(function CustomerLogin(global) {
-	function foo() {
-		bar();
-	}
-	function bar() {
-		console.log(a)
-	}
-	var a = 42;
-
-	// Expose only the necessary API
-	global.foo = foo;
-})(window);
 ```
 
 ####Let
@@ -198,6 +183,24 @@ function diff(x,y) {
 }
 ```
 
+####Modules
+The module pattern allows you to only expose the functions that you want to be public, while still maintaining lexical scope.
+
+```javascript
+// This maintains the lexical scope for the wrapped functions below
+(function CustomerLogin(global) {
+	function foo() {
+		bar();
+	}
+	function bar() {
+		console.log(a)
+	}
+	var a = 42;
+
+	// Expose only the necessary API
+	global.foo = foo;
+})(window);
+```
 
 ##Module Pattern
 Two characteristics for the Module Pattern
@@ -211,18 +214,20 @@ Two characteristics for the Module Pattern
  * Hiding all of the details inside a private function
  * and returning only what needs to be exposed
  */
-var foo = (function () {
-	var o = { bar: "bar" };
 
-	// Expose Bar for public API
-	return {
-		bar: function () {
-			console.log(o.bar);
+var foo = (function () {
+	function bar() {
+		console.log('bar');
+	}
+	var publicAPI = {
+		baz: function () {
+			bar();
 		}
-	};
+	}
+	return publicAPI;
 })();
 
-foo.bar();
+foo.baz(); // 'bar'
 ```
 
 ##Object Oriented Development
@@ -233,8 +238,8 @@ Every function **while executing**, has a refernce to it's current execution con
 Four rules for `this` call sites.
 
 1. Globally scoped `this` 
-2. Hard bound this using `call`, `bind` or `apply` ie: `obj.foo.bind(obj)`
-3. Containing/Owning obejct context `obj.foo()`
+2. Hard bound this using `.call`, `.bind` or `.apply` ie: `obj.foo.bind(obj)`
+3. Containing/Owning object context `obj.foo()`
 4. When putting the `new` keyword in front of a function:
 	* A brand new empty object is created
 	* The brand new empty object gets linked to another object*
@@ -248,16 +253,48 @@ This order of precedence:
 3. Was the function called via a containing/owning object (context)
 4. Default global object (except strict mode 'undefined')
 
-###Constructor
-A constructor makes an object linked to it's own prototype.
-
-###Behavior Delegation
-OLOO (Objects Linked to Other Objects)
+###OLOO (Objects Linked to Other Objects)
+The below snippet demonstrates the concept of OLOO and how linking objects works.
 
 ```
+var Foo = {
+	init: function(who) {
+		this.me = who;
+	},
+	identify: function() {
+		return "I am" + this.me;
+	}
+}
 
+var Bar = Object.create(Foo);
+
+Bar.speak = function () {
+	alert('Hello, ' + this.identify() + '.');
+}
+
+var b1 = Object.create(Bar);
+b1.init("b1");
+
+var b2 = Object.create(Bar);
+b2.init("b2");
+
+b1.speak(); // alerts: "Hello, I am b1."
+b2.speak(); // alerts: "Hello, I am b2."
 ```
 
+If you traced the linked objects in the above example it would look something like below.
+
+```
+    Foo
+     |
+    Bar
+   /   \
+ b1     b2
+```
+
+`Bar` has the linked functions exposed to it from `Foo` and `b1` and `b2` have both the linked functions from `Foo` and `Bar`. This linking of objects is the the core of the **OLOO** coding pattern.
+
+##Extra Credit
 Three reasons why named function expressions are preferrable to anonymous function expression.
 
 * Some times you need to refer to the function from inside itself (Recursion, Unbinding). It becomes a reliable self reference to itself.
@@ -266,10 +303,7 @@ Three reasons why named function expressions are preferrable to anonymous functi
 
 ---
 **References:**  
-Javascript Specification: <http://www.ecma-international.org/ecma-262/7.0/index.html>  
+[Javascript Specification](http://www.ecma-international.org/ecma-262/7.0/index.html)  
 [Lexical Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch2.md)
-
-**Todo:**  
-
-* Convert sites JS over to start using strict mode on all of our JS.
-* Clean up notes for sharing 
+[Closure](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/ch5.md)
+[This](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/ch1.md)
