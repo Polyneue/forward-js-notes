@@ -74,11 +74,11 @@ function baz(foo) {
 	 */
 	foo = "bam";
 	 
+	/*
+	 * Compiler: Ignore because there's no declarator (bam)
+	 * Engine: Hey compiler, do you know foo? (No, move up the scopes to try and find it, if unfound add it to the global scope)
+	 */
 	bam = "yay";
-	 /*
-	  * Compiler: Ignore because there's no declarator (bam)
-	  * Engine: Hey compiler, do you know foo? (No, move up the scopes to try and find it, if unfound add it to the global scope)
-	  */
 }
 ```
 
