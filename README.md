@@ -14,4 +14,4 @@
 ##Functional Lite JS
 **Kyle Simpson**  
 [Notes](https://github.com/Polyneue/forward-js-notes/tree/master/functional-lite-js)  
-[Presentation Slides]()
+[Presentation Slides](https://github.com/Polyneue/forward-js-notes/blob/master/functional-lite-js/fplight.pdf)
