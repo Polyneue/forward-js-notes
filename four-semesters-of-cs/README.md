@@ -1,5 +1,5 @@
 #Four Semesters of CS
-Brian Holt - [@holtbt](https://twitter.com/holtbt)
+Brian Holt - [@holtbt](https://twitter.com/holtbt)  
 This course is intended to cover a few of the more prominent computer science ideas as they relate to roles in web development. All examples and exercises are done in Javascript, however these concepts span across nearly all programming languages.
 
 ##Big O
@@ -24,14 +24,14 @@ function crossAdd(input) {
 The above is `O(n)` because we go through all of the inputs once in a loop
 
 ```javascript
-function fine(needle, haystack) {
+function find(needle, haystack) {
 	for (int i=0; haystack.length; i++) {
 		if (hastack[i] === needle) return true;
 	}
 }
 ```
 
-Still the aboce is `O(n)` because it can take a large array that of an undefined length. Worst case, the needle would be the last element.
+Still the above is `O(n)` because it can take a large array that of an undefined length. Worst case, the needle would be the last element.
 
 When looking for the Big O in algorithms we are looking for the number of loops. For example a nested loop would be `O(n^2)`. With multiple loops, look for the most complex nested loops, and that will be the Big O.
 
@@ -51,15 +51,15 @@ function foo(input) {
 ```
 For the above example, the second loop would be the more complex of the two and be `O(n^2)`
 
-NOTE: If we have no loops and just do something and exit/return, then it's said we're doing it in constant time, or `O(1)`. 
+**Note:** If we have no loops and just do something and exit/return, then it's said we're doing it in constant time, or `O(1)`. 
 
 
 ##Recursion
 Recursion is when you define something in terms of itself. When referring to recursion in CS, a function calling itself would be a Recursive Function and would be Logarithmic in it's Big O. This technique is especially adept at some problems because of it's ability to maintain state at different levels of recursion.  
 
-Recursion carries a large footpring with it as every time you call the function, you're adding another call to thte call stack. That's why some problems are better solved with iteration over recursion.  
+Recursion carries a large footpring with it, as every time you call the function, you're adding another call to the call stack. That's why some problems are better solved with iteration over recursion.  
 
-For recursive algorithms, you always want to be solving for your *base case*. That means if you are adding numbers together up to a maximum value, that max value will be the base case you look for.
+For recursive algorithms, you always want to be solving for your **base case**. That means if you are adding numbers together up to a maximum value, that max value will be the base case you look for.
 
 > Don't kill people, write a base case. - _Brian Holt_
 
@@ -153,5 +153,5 @@ doubleEach(array); // [1,4,6,8,10]
 ---
 **References**  
 [Four Semesters of CS](http://btholt.github.io/four-semesters-of-cs/)  
-[Big O Cheat Sheet](http://bigocheatsheet.com/)
+[Big O Cheat Sheet](http://bigocheatsheet.com/)  
 [Coreman's Intro to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms)
