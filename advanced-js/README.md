@@ -1,34 +1,31 @@
-#Advanced JS
+# Advanced JS
 Kyle Simpson - [@getify](https://twitter.com/getify)  
-This course is based on two of the _You Don't Know JS_ books [Scopes & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) and [this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes). These notes will act as a short overview of the content contained in those books, however I highly recommend giving them a read for a more in depth understanding of Javascript.
+> This course is based on two of the _You Don't Know JS_ books [Scopes & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) and [this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes). These notes will act as a short overview of the content contained in those books, however I highly recommend giving them a read for a more in depth understanding of Javascript.
 
-##Scope
+## Scope
 To understand scope, first you'll need to understand how Javascript reads and sets up the program. Contrary to belief, Javascript is actually a compiled language, in that there is a compile phase and an execution phase when the program is run. These two separate passes over the program are known as the compiler and the engine (executor). 
 
-###The Compiler 
+### The Compiler 
 The compiler scans the code and looks for _Formal Declarations_ (`var`, `function`, `const`, and `let`). _Formal Declarations_ need to start with a declarator, a formal declarator, or have a formal parameter. It uses these _Formal Declarations_ to set up the scoping for each block. This scope that is being created using the declarations is known as the [lexical scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch2.md).
 
 **Note:** Formal function declarations are only considered formal if the word function is first in the line. For example:
 
 ```javascript
-function foo() {} // Formal Function Declaration
-var foo = function foo() {} // Function Expression
+// Formal Function Declaration
+function foo() {}
+
+// Function Expression
+var foo = function foo() {}
 ```
 
-###The Engine
+### The Engine
 The Engine/Executor reads over the program and looks for left hand values and right hand values. These values have different names based on who you ask but the three most common are:
 
-**Left Hand Values**
-
-* LHS (Left Hand Side)
-* LValue
-* Target
-
-**Right Hand Values**
-
-* RHS (Right Hand Side)
-* RValue
-* Source
+Left Hand Values | Right Hand Values
+--- | ---
+LHS (Left Hand Side) | RHS (Right Hand Side)
+LValue | RValue
+Target | Source
 
 In the code example below `foo` is the _Target_ and `"bar"` is the _Source_.
 
@@ -41,44 +38,44 @@ When the program is run, the compiler saves a spot in memory on the first pass f
 For an example of how this conversation between the compiler and the engine occurs, see the code snippet below (Remember, these are two separate phases, the compiler will ask all of it's questions first, and then the engine will do assignent in phase 2). 
 
 ```javascript
-/*
+/**
  * Compiler: Hey global scope, ever heard of foo? (No, go ahead and register it)
  * Engine: Hey compiler do you know foo? (Yes, store "bar" as the value)
  */
 var foo = "bar";
 
-/*
+/**
  * Compiler: Hey global scope, ever heard of function bar? (No, go ahead and register it)
  * Engine: Hey global scope, ever heard of function bar? (Yes, store the function for it)
  */
 function bar() {
 	
-	/*
-	 * Compiler: Hey bar scope, ever heard of foo? (No, go ahead and register it)
-	 * Engine: Hey compiler, do you know foo? (Yes, store "bar" as the value)
-	 */
-	var foo = "baz";	
+  /**
+   * Compiler: Hey bar scope, ever heard of foo? (No, go ahead and register it)
+   * Engine: Hey compiler, do you know foo? (Yes, store "bar" as the value)
+   */
+  var foo = "baz";
 }
 
-/*
+/**
  * Compiler: Hey global scope, ever heard of function baz? (No, go ahead and register it)
  * Engine: Hey global scope, ever heard of function baz? (Yes, store the function for it)
  */
 function baz(foo) {
-	/*
-	 * Compiler: Hey baz scope, ever heard of parameter foo? (No, go ahead and register it)
-	 */
+  /**
+   * Compiler: Hey baz scope, ever heard of parameter foo? (No, go ahead and register it)
+   */
 	 
-	/*
-	 * Engine: Hey compiler, do you know foo? (Yes, store "bam" as the value. Foo was stored as earlier as a formal parameter declaration)
-	 */
-	foo = "bam";
-	 
-	/*
-	 * Compiler: Ignore because there's no declarator (bam)
-	 * Engine: Hey compiler, do you know foo? (No, move up the scopes to try and find it, if unfound add it to the global scope)
-	 */
-	bam = "yay";
+  /**
+   * Engine: Hey compiler, do you know foo? (Yes, store "bam" as the value. Foo was stored as earlier as a formal parameter declaration)
+   */
+  foo = "bam";
+
+  /**
+   * Compiler: Ignore because there's no declarator (bam)
+   * Engine: Hey compiler, do you know foo? (No, move up the scopes to try and find it, if unfound add it to the global scope)
+   */
+  bam = "yay";
 }
 ```
 
@@ -90,18 +87,18 @@ function baz(foo) {
 * Errors: `undeclared` means it was not defined in the scope, `undefined` means it is found in the scope but has not been defined.
 
 
-##Closure
+## Closure
 Closure is when a function "remembers" it's lexical scope even when the function is executed outside that lexical scope. 
 
 ```javascript
 function foo() {
-	var a = 2;
+  var a = 2;
 
-	function bar() {
-		console.log(a); // 2
-	}
+  function bar() {
+    console.log(a); // 2
+  }
 
-	bar();
+  bar();
 }
 
 foo(); // 2
@@ -111,13 +108,13 @@ In the above snippet function `bar()` has a _closure_ over the scope of `foo()`,
 
 ```javascript
 function foo() {
-	var a = 2;
+  var a = 2;
 
-	function bar() {
-		console.log(a); // 2
-	}
+  function bar() {
+    console.log(a); // 2
+  }
 
-	return bar;
+  return bar;
 }
 
 var baz = foo();
@@ -135,10 +132,10 @@ The function `bar()` still has a closure over the inner scope of `foo()`, which 
 
 Since `bar()` still has a reference to that scope, that reference is called **closure**.
 
-###Creating Closures
+### Creating Closures
 Sometimes you need to intentionally create closures for your programs. There are multiple ways this can be done using *IIFE*, `let` scoping, and modules.
 
-####IIFE
+#### IIFE
 Immediately Invoked Function Expressions
 
 ```javascript
@@ -146,95 +143,99 @@ var a = 2;
 
 // Allows for some scope and keeps bob() from populating the global scope.
 (function bob() {
-	var a = 10;
-	console.log(a); // 10
+  var a = 10;
+  console.log(a); // 10
 })();
 
 // Turns a declaration into a function expression for immediate usage.
 void function bob() {
-	var a = 12;
-	console.log(a); // 12
+  var a = 12;
+  console.log(a); // 12
 }
 
 console.log(a) // 2
 ```
 
-####Let
+#### Let
 The `let` keyword will create a block level scope when used.
 
 ```javascript
 function diff(x,y) {
 	
-	// EX 1 - Implicit Declaration
-	if (x > y) {
-		let tmp = x;
-		x = y;
-		y = tmp;
-	}
+  // EX 1 - Implicit Declaration
+  if (x > y) {
+	let tmp = x;
+	x = y;
+	y = tmp;
+  }
 
-	// Ex 2 - Explicit Declaration
-	if (x > y) {
-		// Let will be scoped to the "if" block
-		{
-			let tmp = x;
-			x = y;
-			y = tmp;
-		}
-	}
-	return y - x;
+  // Ex 2 - Explicit Declaration
+  if (x > y) {
+	  // Let will be scoped to the "if" block
+	  {
+		  let tmp = x;
+		  x = y;
+		  y = tmp;
+	  }
+  }
+
+  return y - x;
 }
 ```
 
-####Modules
+#### Modules
 The module pattern allows you to only expose the functions that you want to be public, while still maintaining lexical scope.
 
 ```javascript
 // This maintains the lexical scope for the wrapped functions below
 (function CustomerLogin(global) {
-	function foo() {
-		bar();
-	}
-	function bar() {
-		console.log(a)
-	}
-	var a = 42;
+  function foo() {
+	bar();
+  }
+  
+  function bar() {
+	console.log(a)
+  }
+  
+  var a = 42;
 
-	// Expose only the necessary API
-	global.foo = foo;
+  // Expose only the necessary API
+  global.foo = foo;
 })(window);
 ```
 
-##Module Pattern
+## Module Pattern
 Two characteristics for the Module Pattern
 
 * Must be an outer enclosing function that runs at least once.
 * The function must return back at least one inner function that has closure over the internals.
 
 ```javascript
-/* 
+/**
  * Module Patterns
  * Hiding all of the details inside a private function
  * and returning only what needs to be exposed
  */
-
 var foo = (function () {
-	function bar() {
-		console.log('bar');
+  function bar() {
+	console.log('bar');
+  }
+  
+  var publicAPI = {
+	baz: function() {
+		bar();
 	}
-	var publicAPI = {
-		baz: function() {
-			bar();
-		}
-	}
-	return publicAPI;
+  }
+
+  return publicAPI;
 })();
 
 foo.baz(); // 'bar'
 ```
 
-##Object Oriented Development
+## Object Oriented Development
 
-###This
+### This
 Every function **while executing**, has a refernce to it's current execution context, called `this`.  
 
 Four rules for `this` call sites.
@@ -255,23 +256,23 @@ Four rules for `this` call sites.
 3. Was the function called via a containing/owning object (context)
 4. Default global object (except strict mode 'undefined')
 
-###OLOO (Objects Linked to Other Objects)
+### OLOO (Objects Linked to Other Objects)
 The below snippet demonstrates the concept of OLOO and how linking objects works.
 
 ```javascript
 var Foo = {
-	init: function(who) {
-		this.me = who;
-	},
-	identify: function() {
-		return "I am" + this.me;
-	}
+  init: function(who) {
+	this.me = who;
+  },
+  identify: function() {
+	return "I am" + this.me;
+  }
 }
 
 var Bar = Object.create(Foo);
 
 Bar.speak = function () {
-	alert('Hello, ' + this.identify() + '.');
+  alert('Hello, ' + this.identify() + '.');
 }
 
 var b1 = Object.create(Bar);
@@ -296,7 +297,7 @@ If you traced the linked objects in the above example it would look something li
 
 `Bar` has the linked functions exposed to it from `Foo`, `b1` and `b2` have both the linked functions from `Foo` and `Bar`. This linking of objects is the the core of the **OLOO** coding pattern.
 
-##Extra Credit
+## Extra Credit
 Three reasons why named function expressions are preferrable to anonymous function expression.
 
 * Some times you need to refer to the function from inside itself (Recursion, Unbinding). It becomes a reliable self reference to itself.
